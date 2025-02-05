@@ -3,82 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Guessing Game</title>
+    <title>OTs Color Game/title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="color-box" data-testid="colorBox" id="colorBox">RGB</div>
-<div class="game-instructions" data-testid="gameInstructions">Guess the correct color!</div>
-<div class="color-options" data-testid="colorOptions" id="colorOptions"></div>
-<div class="game-status" data-testid="gameStatus" id="gameStatus"></div>
-<div class="score" data-testid="score" id="score">Score: 0</div>
-<button class="new-game-button" data-testid="newGameButton" id="newGameButton">New Game</button>
+    <div id="gameContainer">
+        <div id="colorBox" data-testid="colorBox"></div>
+        <div id="gameInstructions" data-testid="gameInstructions">Guess the correct color!</div>
+        <div id="gameStatus" data-testid="gameStatus"></div>
+        <div id="score" data-testid="score">Score: 0</div>
+        <div id="highScore" data-testid="highScore">High Score: 0</div>
+        <div id="timer" data-testid="timer">Time: 10</div>
+        <div id="lives" data-testid="lives">3</div>
+        <div id="colorOptions"></div>
+        <button id="newGameButton" data-testid="newGameButton">New Game</button>
+    </div>
 
-<script>
-    const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
-    let score = 0;
+    <div id="gameOverOverlay">
+        <div id="gameOverMessage">Game Over!</div>
+        <button id="overlayButton">Start Again</button>
+    </div>
 
-    function getRandomColor() {
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function generateColorOptions(correctColor) {
-        const options = [correctColor];
-        while (options.length < 6) {
-            const randomColor = getRandomColor();
-            if (!options.includes(randomColor)) {
-                options.push(randomColor);
-            }
-        }
-        return options.sort(() => Math.random() - 0.5);
-    }
-
-    function startNewGame() {
-        const correctColor = getRandomColor();
-        document.getElementById('colorBox').style.backgroundColor = correctColor;
-        document.getElementById('colorBox').textContent = "";
-        const options = generateColorOptions(correctColor);
-        const colorOptionsContainer = document.getElementById('colorOptions');
-        colorOptionsContainer.innerHTML = '';
-
-        options.forEach(color => {
-            const button = document.createElement('button');
-            button.className = 'color-option';
-            button.style.backgroundColor = color;
-            button.setAttribute('data-testid', 'colorOption');
-            button.onclick = () => checkGuess(color, correctColor);
-            colorOptionsContainer.appendChild(button);
-        });
-
-        document.getElementById('gameStatus').textContent = '';
-    }
-
-    function checkGuess(selectedColor, correctColor) {
-        const gameStatus = document.getElementById('gameStatus');
-        const colorBox = document.getElementById('colorBox');
-
-        if (selectedColor === correctColor) {
-            score++;
-            gameStatus.textContent = 'Correct!';
-            gameStatus.classList.add('celebrate');
-            colorBox.textContent = correctColor.toUpperCase();
-            colorBox.style.transition = 'background-color 0.5s ease';
-            document.getElementById('score').textContent = `Score: ${score}`;
-        } else {
-            gameStatus.textContent = 'Wrong! Try Again.';
-            gameStatus.classList.add('fade-out');
-            setTimeout(() => {
-                gameStatus.classList.remove('fade-out');
-            }, 500); // Reset the class after animation
-        }
-    }
-
-    document.getElementById('newGameButton').onclick = startNewGame;
-
-    // Start the first game
-    startNewGame();
-</script>
+   <script src="script.js"></script>
 
 </body>
 </html>
