@@ -171,4 +171,4 @@ const baseColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
         };
 
         
-    setupGame();
+        setupGame();
